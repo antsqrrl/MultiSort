@@ -319,7 +319,7 @@ void to_gnuplot()
     fprintf(plot, "plot \'");
     fprintf(plot, fileNames[0]);
     fprintf(plot, "\' using 1:2 with linespoints\n");
-    //fprintf(plot, "set logscale x 10\n");
+    fprintf(plot, "set logscale x 10\n");
     for (int i = 1; i < 7; i++)
     {
 
