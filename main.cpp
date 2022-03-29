@@ -1,6 +1,4 @@
-#include <windows.h>
 #include <iostream>
-#include <cstdlib>
 #include <ctime>
 #include <fstream>
 #include <chrono>
@@ -246,9 +244,6 @@ void gnomeSort(int* a, int _size)
 }
 void hybridSort(int* a, int _size)
 {
-//    auto begin = chrono::high_resolution_clock::now();
-//    auto timeb = GetTickCount();
-
     std::thread thread1([a, _size]
     {
         for (int i = _size-1; i >= 0; i--)
@@ -275,10 +270,6 @@ void hybridSort(int* a, int _size)
         }
         a[i + 1] = T;
     }
-//    auto end = chrono::high_resolution_clock::now();
-//    //time = GetTickCount() - time;
-//    timeb = GetTickCount() - timeb;
-//    auto time = chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count();
 }
 
 void randomFill(int* a, int _size)
@@ -312,7 +303,7 @@ void to_gnuplot()
         fprintf(plot, "\nset title \'");
         fprintf(plot, fileNames[i]);
         fprintf(plot, "\'\n");
-        fprintf(plot, "set xlabel \"Number of a elements\"\nset ylabel \"Time (us)\"\n");
+        fprintf(plot, "set xlabel \"Number of a elements\"\nset ylabel \"Time (ns)\"\n");
         fprintf(plot, "plot \'");
         fprintf(plot, fileNames[i]);
         fprintf(plot, "\' using 1:2 with linespoints\n");
@@ -322,7 +313,7 @@ void to_gnuplot()
     }
 
     fprintf(plot, "set terminal windows 9\n");
-    fprintf(plot, "set xlabel \"Number of elements\"\n set ylabel \"Time (us)\"\n");
+    fprintf(plot, "set xlabel \"Number of elements\"\n set ylabel \"Time (ns)\"\n");
     fprintf(plot, "set title \"SORTING ALGORITHMS\"\n");
 
     fprintf(plot, "plot \'");
@@ -370,18 +361,15 @@ int main(int argc, char* argv[])
                 continue;
             }
 
-
             memcpy(my_array, randArray, size * sizeof(int));
 
             files[i] << size << "\t";
-            //long int time = GetTickCount();
             unsigned long long time = 0;
             for (int j = 0; j < ITERATIONS_COUNT; ++j)
             {
                 auto begin = chrono::high_resolution_clock::now();
                 pSort[i](my_array, size);
                 auto end = chrono::high_resolution_clock::now();
-                //time = GetTickCount() - time;
                 time += chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count();
             }
             time /= ITERATIONS_COUNT;
@@ -389,82 +377,8 @@ int main(int argc, char* argv[])
             {
                 sortCompleted[i] = true;
             }
-            switch (i)
-            {
-                case 0:
-                    if (size == 100000 || size == 200000 || size == 300000 || size == 400000 || size == 500000 || size == 600000 || size == 700000 || size == 800000 || size == 900000)
-                    {
-                        cout << "qSort for array of" << size << "elements done" << endl;
-                    }
-                    if (sortCompleted[i])
-                    {
-                        cout << "Q_SORT ENDED WORKING" << endl;
-                    }
-                    break;
-                case 1:
-                    cout << "bubSort for array of" << size << "elements done" << endl;
-                    if (sortCompleted[i])
-                    {
-                        cout << "BUB_SORT ENDED WORKING" << endl;
-                    }
-                    break;
-                case 2:
-                    if (size == 100000 || size == 200000 || size == 300000 || size == 400000 || size == 500000 || size == 600000 || size == 700000 || size == 800000 || size == 900000)
-                    {
-                        cout << "mergeSort for array of" << size << "elements done" << endl;
-                    }
-                    if (sortCompleted[i])
-                    {
-                        cout << "MERGE_SORT ENDED WORKING" << endl;
-                    }
-                    break;
-                case 3:
-                    if (size == 100000 || size == 200000 || size == 300000 || size == 400000 || size == 500000 || size == 600000 || size == 700000 || size == 800000 || size == 900000)
-                    {
-                        cout << "insertionSort for array of" << size << "elements done" << endl;
-                    }
-                    if (sortCompleted[i])
-                    {
-                        cout << "INSERTION_SORT ENDED WORKING" << endl;
-                    }
-                    break;
-                case 4:
-                    if (size == 100000 || size == 200000 || size == 300000 || size == 400000 || size == 500000 || size == 600000 || size == 700000 || size == 800000 || size == 900000)
-                    {
-                        cout << "selectionSort for array of" << size << "elements done" << endl;
-                    }
-                    if (sortCompleted[i])
-                    {
-                        cout << "SELECTION_SORT ENDED WORKING" << endl;
-                    }
-                    break;
-                case 5:
-                    if (size == 100000 || size == 200000 || size == 300000 || size == 400000 || size == 500000 || size == 600000 || size == 700000 || size == 800000 || size == 900000)
-                    {
-                        cout << "gnomeSort for array of" << size << "elements done" << endl;
-                    }
-                    if (sortCompleted[i])
-                    {
-                        cout << "GNOME_SORT ENDED WORKING" << endl;
-                    }
-                    break;
-                case 6:
-                    if (size == 100000 || size == 200000 || size == 300000 || size == 400000 || size == 500000 || size == 600000 || size == 700000 || size == 800000 || size == 900000)
-                    {
-                        cout << "hybridQuickSort for array of" << size << "elements done" << endl;
-                    }
-                    if (sortCompleted[i])
-                    {
-                        cout << "HYBRID_QUICK_SORT ENDED WORKING" << endl;
-                    }
-                    break;
-            }
             files[i] << time << "\n";
         }
-//        for (int i = 0; i < MAX_ARRAY_SIZE; i++)
-//        {
-//            cout << my_array[i] <<endl;
-//        }
         delete[] my_array;
     }
     for (int i = 0; i < 7; i++)
