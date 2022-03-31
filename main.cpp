@@ -7,8 +7,7 @@
 #include <thread>
 
 #define MAX_ARRAY_SIZE 1000000
-//#define MAX_SORT_TIME 100000000
-#define MAX_SORT_TIME 10000000
+#define MAX_SORT_TIME 100000000
 #define ITERATIONS_COUNT 5
 
 using namespace std;
