@@ -7,7 +7,8 @@
 #include <thread>
 
 #define MAX_ARRAY_SIZE 1000000
-#define MAX_SORT_TIME 100000000
+//#define MAX_SORT_TIME 100000000
+#define MAX_SORT_TIME 10000000
 #define ITERATIONS_COUNT 5
 
 using namespace std;
@@ -296,9 +297,9 @@ void to_gnuplot()
         fprintf(plot, "set xlabel \"Количество элементов\"\nset ylabel \"Время (нс)\"\n");
         fprintf(plot, "plot \'");
         fprintf(plot, fileNames[i]);
-        fprintf(plot, "\' title \'");
+        fprintf(plot, "\' using 1:2 title \'");
         fprintf(plot, names[i]);
-        fprintf(plot, "\' using 1:2 with linespoints\n");
+        fprintf(plot, "\' with linespoints\n");
         //fprintf(plot, "set logscale x 10\n");
 
         fflush(plot);
@@ -310,20 +311,18 @@ void to_gnuplot()
 
     fprintf(plot, "plot \'");
     fprintf(plot, fileNames[0]);
-    fprintf(plot, "\' title \'");
+    fprintf(plot, "\' using 1:2 title \'");
     fprintf(plot, names[0]);
-    fprintf(plot, "\' using 1:2 with linespoints\n");
+    fprintf(plot, "\' with linespoints\n");
     fprintf(plot, "set logscale x 10\n");
     for (int i = 1; i < 7; i++)
     {
 
         fprintf(plot, "replot \'");
         fprintf(plot, fileNames[i]);
-        fprintf(plot, "\' title \'");
+        fprintf(plot, "\' using 1:2 title \'");
         fprintf(plot, names[i]);
-        fprintf(plot, "\' using 1:2 with linespoints\n");
-        fprintf(plot, "set logscale x 10\n");
-
+        fprintf(plot, "\' with linespoints\n");
     }
     fflush(plot);
 
@@ -357,7 +356,7 @@ int main(int argc, char* argv[])
                 continue;
             }
 
-            memcpy(my_array, randArray, size * sizeof(int));
+            memcpy(my_array, randArray, size *sizeof(int));
 
             files[i] << size << "\t";
             unsigned long long time = 0;
